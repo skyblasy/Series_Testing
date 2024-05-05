@@ -1,10 +1,10 @@
-from scipy import stats
-
 class SampleComparison:
     def __init__(self, sample1, sample2):
         self.sample1 = sample1
         self.sample2 = sample2
         self.alpha = 0.05
+        from scipy import stats
+        self.stats = stats
 
     def run_tests(self):
         # Perform Shapiro-Wilk test for normality
@@ -26,8 +26,8 @@ class SampleComparison:
 
     def shapiro_wilk_test(self):
         # Perform Shapiro-Wilk test for normality on both samples
-        _, p_value1 = stats.shapiro(self.sample1)
-        _, p_value2 = stats.shapiro(self.sample2)
+        _, p_value1 = self.stats.shapiro(self.sample1)
+        _, p_value2 = self.stats.shapiro(self.sample2)
 
         if p_value1 > self.alpha and p_value2 > self.alpha:
             print("Both samples are normally distributed.")
@@ -38,7 +38,7 @@ class SampleComparison:
 
     def levene_test(self):
         # Perform Levene's test for equal variances
-        _, p_value = stats.levene(self.sample1, self.sample2)
+        _, p_value = self.stats.levene(self.sample1, self.sample2)
 
         if p_value > self.alpha:
             print("Variances are equal.")
@@ -49,15 +49,15 @@ class SampleComparison:
 
     def t_test(self):
         # Perform t-test for equal variances
-        _, p_value = stats.ttest_ind(self.sample1, self.sample2)
+        _, p_value = self.stats.ttest_ind(self.sample1, self.sample2)
         print(f"T-test p-value: {p_value}")
 
     def welch_test(self):
         # Perform Welch's t-test for unequal variances
-        _, p_value = stats.ttest_ind(self.sample1, self.sample2, equal_var=False)
+        _, p_value = self.stats.ttest_ind(self.sample1, self.sample2, equal_var=False)
         print(f"Welch's t-test p-value: {p_value}")
 
     def mann_whitney_u_test(self):
         # Perform Mann-Whitney U test
-        _, p_value = stats.mannwhitneyu(self.sample1, self.sample2)
+        _, p_value = self.stats.mannwhitneyu(self.sample1, self.sample2)
         print(f"Mann-Whitney U test p-value: {p_value}")
