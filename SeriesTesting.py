@@ -1,3 +1,5 @@
+from scipy import stats
+
 class SampleComparison:
     def __init__(self, sample1, sample2):
         self.sample1 = sample1
